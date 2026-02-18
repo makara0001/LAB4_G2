@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Lab 4</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-base-200 p-10">
+
+<div class="max-w-2xl mx-auto space-y-8">
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Greeting by Time</h2>
+      <p id="greet"></p>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Leap Year</h2>
+      <button onclick="checkLeap()" class="btn btn-primary">Check Leap Year</button>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Join Array</h2>
+      <p id="arrayResult"></p>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Caesar Cipher</h2>
+
+      <input id="text" type="text" placeholder="Enter text" class="input input-bordered w-full" />
+      <input id="shift" type="number" placeholder="Shift" class="input input-bordered w-full" />
+
+      <div class="flex gap-3 mt-2">
+        <button onclick="encrypt()" class="btn btn-primary">Encrypt</button>
+        <button onclick="decrypt()" class="btn btn-secondary">Decrypt</button>
+      </div>
+
+      <p id="result" class="mt-4 font-bold"></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function greet() {
+  const d = new Date();
+  let hour = d.getHours();
+  let msg = "";
+
+  if (hour < 12) msg = "Good Morning";
+  else if (hour < 18) msg = "Good Afternoon";
+  else msg = "Good Evening";
+
+  document.getElementById("greet").innerHTML = msg;
+}
+greet();
+
+function checkLeap() {
+  let year = prompt("Enter a year:");
+
+  if (year !== null && year !== "") {
+    year = parseInt(year);
+
+    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+      alert(year + " is a Leap Year");
+    } else {
+      alert(year + " is NOT a Leap Year");
+    }
+  }
+}
+
+let myColor = ["Red", "Green", "White", "Black"];
+let resultArr = "";
+
+for (let i = 0; i < myColor.length; i++) {
+  resultArr += myColor[i];
+  if (i < myColor.length - 1) resultArr += ",";
+}
+
+document.getElementById("arrayResult").innerHTML = resultArr;
+
+function caesar(text, shift) {
+  let output = "";
+
+  for (let i = 0; i < text.length; i++) {
+    let c = text.charCodeAt(i);
+
+    if (c >= 65 && c <= 90) {
+      output += String.fromCharCode((c - 65 + shift + 26) % 26 + 65);
+    } 
+    else if (c >= 97 && c <= 122) {
+      output += String.fromCharCode((c - 97 + shift + 26) % 26 + 97);
+    } 
+    else {
+      output += text[i];
+    }
+  }
+
+  return output;
+}
+
+function encrypt() {
+  let text = document.getElementById("text").value;
+  let shift = parseInt(document.getElementById("shift").value);
+  document.getElementById("result").textContent = caesar(text, shift);
+}
+
+function decrypt() {
+  let text = document.getElementById("text").value;
+  let shift = parseInt(document.getElementById("shift").value);
+  document.getElementById("result").textContent = caesar(text, -shift);
+}
+</script>
+
+</body>
+</html>
